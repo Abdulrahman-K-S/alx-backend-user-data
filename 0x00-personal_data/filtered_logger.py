@@ -53,7 +53,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db() -> connection.MySQLConnection:
     """get_db
 
     Connects to the secure database and returns the connector.
