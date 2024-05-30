@@ -57,5 +57,5 @@ class RedactingFormatter(logging.Formatter):
         The formater of the class
         """
         return filter_datum(self.fields, self.REDACTION,
-                            super(RedactingFormatter, self).fromat(record),
+                            super(RedactingFormatter, self).format(record),
                             self.SEPARATOR)
