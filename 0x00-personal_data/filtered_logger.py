@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Task 2. Create logger
+Task 3. Connect to secure database
 
-Implement a get_logger that returns a logging.Logger object
+Get a secure connection to a database
 """
 
 from typing import List
 import re
 import logging
+from mysql.connector import connection
+from os import environ
 
 PII_FIELDS = ('name', 'email', 'password', 'ssn', 'phone')
 
@@ -49,6 +51,23 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(stream_handler)
     return logger
+
+
+def get_db():
+    """get_db
+
+    Connects to the secure database and returns the connector.
+
+    Return:
+        (MySQLConnection): The database connector
+    """
+    username = environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = environ.get('PERSONAL_DATA_DB_PASSWORD', '')
+    host = environ.get('PERSONAL_DATA_DB_HOST', 'local_host')
+    db_name = environ.get('PERSONAL_DATA_DB_NAME')
+
+    connector = connection.MySQLConnection(username, password, host, db_name)
+    return connector
 
 
 class RedactingFormatter(logging.Formatter):
