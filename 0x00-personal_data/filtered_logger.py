@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Task 1. Log formatter
+Task 2. Create logger
 
-Implement class RedactingFormatter
+Implement a get_logger that returns a logging.Logger object
 """
 
 from typing import List
 import re
 import logging
+
+PII_FIELDS = ('name', 'email', 'password', 'ssn', 'phone')
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -33,6 +35,20 @@ def filter_datum(fields: List[str], redaction: str,
                               field + '=' + redaction + separator,
                               temp_message)
     return temp_message
+
+
+def get_logger() -> logging.Logger:
+    """get_logger
+
+    """
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(stream_handler)
+    return logger
 
 
 class RedactingFormatter(logging.Formatter):
