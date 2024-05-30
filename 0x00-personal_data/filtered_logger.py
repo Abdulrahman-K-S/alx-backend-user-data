@@ -98,3 +98,31 @@ class RedactingFormatter(logging.Formatter):
         return filter_datum(self.fields, self.REDACTION,
                             super(RedactingFormatter, self).format(record),
                             self.SEPARATOR)
+
+
+def main():
+    """main
+
+    Starting point
+    """
+    db = get_db()
+    cursor = db.cursor()
+
+    query = ('SELECT * FROM users;')
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    logger = get_logger()
+    for row in data:
+        fields = 'name={}; email={}; phone={}; ssn={}; password={}; ip={}; '\
+            'last_login={}; user_agent={};'
+        fields = fields.format(row[0], row[1], row[2], row[3],
+                               row[4], row[5], row[6], row[7])
+        logger.info(fields)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == '__main__':
+    main()
