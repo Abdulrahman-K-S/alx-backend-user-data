@@ -5,7 +5,7 @@ Task 6. Basic auth
 The BasicAuth class
 """
 
-from auth import Auth
+from api.v1.auth.auth import Auth
 
 
 class BasicAuth(Auth):
