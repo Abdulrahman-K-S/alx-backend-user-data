@@ -26,6 +26,7 @@ class Auth:
                 return False
             elif i in {path, path + '/'}:
                 return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """authorization_header
