@@ -48,7 +48,7 @@ def authenticate():
 
     Authenticates the user before processing a request.
     """
-    if auth:
+    if auth is not None:
         excluded_paths = [
             '/api/v1/status/',
             '/api/v1/unauthorized/',
@@ -64,9 +64,9 @@ def authenticate():
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
-    auth = getenv("AUTH_TYPE")
-    if auth == 'auth':
+    auth_type = getenv("AUTH_TYPE")
+    if auth_type == 'auth':
         auth = Auth()
-    if auth == 'basic_auth':
+    if auth_type == 'basic_auth':
         auth = BasicAuth()
     app.run(host=host, port=port)
