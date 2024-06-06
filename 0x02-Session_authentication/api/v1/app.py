@@ -60,10 +60,12 @@ def authenticate():
         excluded_paths = [
             '/api/v1/status/',
             '/api/v1/unauthorized/',
-            '/api/v1/forbidden/'
+            '/api/v1/forbidden/',
+            '/api/v1/auth_session/login/'
         ]
         if auth.require_auth(request.path, excluded_paths):
-            if auth.authorization_header(request) is None:
+            if auth.authorization_header(request) is None and \
+                auth.current_user(request) is None:
                 abort(401)
             user = auth.current_user(request)
             if user is None:
