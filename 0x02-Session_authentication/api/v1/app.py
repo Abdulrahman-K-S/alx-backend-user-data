@@ -64,10 +64,10 @@ def authenticate():
             '/api/v1/auth_session/login/'
         ]
         if auth.require_auth(request.path, excluded_paths):
-            if auth.authorization_header(request) is None and \
-                auth.current_user(request) is None:
-                abort(401)
+            header = auth.authorization_header(request)
             user = auth.current_user(request)
+            if header is None and user is None:
+                abort(401)
             if user is None:
                 abort(403)
             request.current_user = user
