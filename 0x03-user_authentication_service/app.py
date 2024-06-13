@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """A simple Flask app with user authentication features.
 """
+
 from flask import Flask, jsonify, request, abort, redirect
-
 from auth import Auth
-
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -25,7 +24,8 @@ def users() -> str:
     Return:
         - The account creation payload.
     """
-    email, password = request.form.get("email"), request.form.get("password")
+    email = request.form.get("email")
+    password = request.form.get("password")
     try:
         AUTH.register_user(email, password)
         return jsonify({"email": email, "message": "user created"})
@@ -39,7 +39,8 @@ def login() -> str:
     Return:
         - The account login payload.
     """
-    email, password = request.form.get("email"), request.form.get("password")
+    email = request.form.get("email")
+    password = request.form.get("password")
     if not AUTH.valid_login(email, password):
         abort(401)
     session_id = AUTH.create_session(email)
@@ -114,4 +115,4 @@ def update_password() -> str:
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port=5000)
